@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Farm Feud - Two Part Playable MVP</title>
+    <meta name="theme-color" content="#1563b2" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="prototype-shell">
+      <section class="game-stage dice-stage" id="gameRoot" data-roll-theme="positive" data-result-state="hidden" aria-label="Farm Feud playable prototype">
+        <section class="game-screen dice-screen" id="diceScreen" aria-label="Dice roll screen">
+          <img class="dice-art-layer dice-background-art" src="./assets/dice/background.png" alt="" aria-hidden="true" />
+          <img class="dice-art-layer dice-base-ui" src="./assets/dice/base-ui.png" alt="" aria-hidden="true" />
+          <img class="dice-art-layer dice-rays-effect" src="./assets/dice/rays-effect.png" alt="" aria-hidden="true" />
+
+          <div class="paper-lines" aria-hidden="true"></div>
+          <div class="speed-lines" aria-hidden="true"></div>
+
+          <div class="round-indicator">
+            <span>ROLL</span>
+            <strong id="roundIndicator"></strong>
+          </div>
+
+          <header class="buff-banner" aria-live="polite">
+            <img class="buff-banner-art" src="./assets/dice/blue-ribbon.png" alt="" aria-hidden="true" />
+            <img class="banner-fire-art" src="./assets/dice/banner-fire.png" alt="" aria-hidden="true" />
+            <img class="banner-small-art" src="./assets/dice/banner-small-alt.png" alt="" aria-hidden="true" />
+            <img class="banner-dynamax-art" src="./assets/dice/banner-dynamax-alt.png" alt="" aria-hidden="true" />
+            <div class="multiplier-badge" aria-hidden="true">
+              <img class="multiplier-burst-art" src="./assets/dice/multiplier-burst.png" alt="" />
+              <img class="banner-multiplier-art" src="./assets/dice/multiplier-x20.png" alt="" />
+              <img class="banner-x1-art" src="./assets/dice/multiplier-x1.png" alt="" />
+              <img class="banner-x99-art" src="./assets/dice/multiplier-x99.png" alt="" />
+            </div>
+            <strong id="bannerText"></strong>
+            <span class="banner-burst" id="bannerResult"></span>
+          </header>
+
+          <section class="dice-board" aria-label="Two dice result board">
+            <img class="dice-board-art" src="./assets/dice/board.png" alt="" aria-hidden="true" />
+            <div class="board-label board-label-left">FUNCTION DIE</div>
+            <div class="board-label board-label-right">VALUE DIE</div>
+
+            <div class="dice-pair">
+              <div class="die-column">
+                <div class="die-callout" id="skillCallout">
+                  <img class="board-callout-art board-icon-fire" src="./assets/dice/board-callouts/fire.png" alt="" aria-hidden="true" />
+                  <img class="board-callout-art board-icon-small" src="./assets/dice/board-callouts/small.png" alt="" aria-hidden="true" />
+                  <img class="board-callout-art board-icon-dynamax" src="./assets/dice/board-callouts/dynamax.png" alt="" aria-hidden="true" />
+                </div>
+                <div class="dice-shadow"></div>
+                <div class="dice-cube skill-cube" id="skillDie" aria-label="Function die">
+                  <div class="cube-face cube-front pip-layout pip-six"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="cube-face cube-back pip-layout pip-two"><i></i><i></i></div>
+                  <div class="cube-face cube-right pip-layout pip-four"><i></i><i></i><i></i><i></i></div>
+                  <div class="cube-face cube-left pip-layout pip-three"><i></i><i></i><i></i></div>
+                  <div class="cube-face cube-top pip-layout pip-one"><i></i></div>
+                  <div class="cube-face cube-bottom pip-layout pip-five"><i></i><i></i><i></i><i></i><i></i></div>
+                </div>
+                <canvas class="dice-gif-canvas dice-gif-red" id="redDiceGif" width="148" height="148" aria-label="Animated red function die"></canvas>
+              </div>
+
+              <div class="die-column">
+                <div class="die-callout value-callout" id="valueCallout">
+                  <img class="board-callout-art board-icon-x1" src="./assets/dice/board-callouts/x1.png" alt="" aria-hidden="true" />
+                  <img class="board-callout-art board-icon-x20" src="./assets/dice/board-callouts/x20.png" alt="" aria-hidden="true" />
+                  <img class="board-callout-art board-icon-x99" src="./assets/dice/board-callouts/x99.png" alt="" aria-hidden="true" />
+                </div>
+                <div class="dice-shadow"></div>
+                <div class="dice-cube value-cube" id="valueDie" aria-label="Value die">
+                  <div class="cube-face cube-front pip-layout pip-four"><i></i><i></i><i></i><i></i></div>
+                  <div class="cube-face cube-back pip-layout pip-five"><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="cube-face cube-right pip-layout pip-two"><i></i><i></i></div>
+                  <div class="cube-face cube-left pip-layout pip-six"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="cube-face cube-top pip-layout pip-one"><i></i></div>
+                  <div class="cube-face cube-bottom pip-layout pip-three"><i></i><i></i><i></i></div>
+                </div>
+                <canvas class="dice-gif-canvas dice-gif-blue" id="blueDiceGif" width="148" height="148" aria-label="Animated blue value die"></canvas>
+              </div>
+            </div>
+
+            <div class="board-result" id="boardResult"></div>
+          </section>
+
+          <div class="tap-bubble" id="tapBubble" aria-label="Instruction text placeholder">
+            <img class="tap-bubble-art" src="./assets/dice/farm-fate-bubble.png" alt="" aria-hidden="true" />
+            <img class="farm-fate-prompt-art" src="./assets/dice/farm-fate-prompt-v2.png" alt="Tap to decide the farm's fate!" />
+            <span id="tapBubbleText" class="visually-hidden"></span>
+          </div>
+
+          <div class="tap-hand" aria-hidden="true">
+            <img class="tap-hand-art" src="./assets/dice/tap-hand.png" alt="" />
+          </div>
+
+          <div class="button-ornament" aria-hidden="true"></div>
+
+          <div class="weapon-placeholder" id="weaponPlaceholder" aria-label="Round weapon" aria-hidden="true">
+            <span class="weapon-hammer-handle"></span>
+            <span class="weapon-hammer-head"></span>
+            <span class="weapon-flame-mark weapon-mark-one"></span>
+            <span class="weapon-flame-mark weapon-mark-two"></span>
+            <span class="weapon-flame-mark weapon-mark-three"></span>
+            <img class="weapon-art weapon-art-flame" src="./assets/dice/hammer-flame.png" alt="" aria-hidden="true" />
+            <img class="weapon-art weapon-art-tiny" src="./assets/dice/hammer-tiny.png" alt="" aria-hidden="true" />
+            <img class="weapon-art weapon-art-mega" src="./assets/dice/hammer-mega.png" alt="" aria-hidden="true" />
+          </div>
+
+          <button class="roll-button is-pulsing" id="rollButton" type="button" aria-label="Roll the dice">
+            <img class="roll-button-art" src="./assets/dice/button.png" alt="" aria-hidden="true" />
+            <img class="roll-button-accessory" src="./assets/dice/button-accessory.png" alt="" aria-hidden="true" />
+            <span class="roll-button-label" id="rollButtonLabel">ROLL</span>
+          </button>
+
+          <div class="stage-status" id="stageStatus" aria-live="polite">Tap the button to reveal the dice result.</div>
+        </section>
+
+        <section class="game-screen action-screen" id="actionScreen" aria-label="Action screen placeholder" aria-hidden="true">
+          <div class="paper-lines action-paper-lines" aria-hidden="true"></div>
+          <div class="action-speed-lines" aria-hidden="true"></div>
+
+          <header class="buff-banner action-buff-banner" aria-live="polite">
+            <img class="action-banner-ribbon" src="./assets/dice/blue-ribbon.png" alt="" aria-hidden="true" />
+            <img class="action-banner-fire" src="./assets/dice/banner-fire.png" alt="" aria-hidden="true" />
+            <img class="action-banner-small" src="./assets/dice/banner-small-alt.png" alt="" aria-hidden="true" />
+            <img class="action-banner-dynamax" src="./assets/dice/banner-dynamax-alt.png" alt="" aria-hidden="true" />
+            <img class="action-banner-x20" src="./assets/dice/banner-x20.png" alt="" aria-hidden="true" />
+            <img class="action-banner-x1" src="./assets/dice/banner-x1.png" alt="" aria-hidden="true" />
+            <img class="action-banner-x99" src="./assets/dice/banner-x99.png" alt="" aria-hidden="true" />
+            <strong id="actionBannerText">BUFF</strong>
+            <span class="banner-burst" id="actionBannerResult">x20</span>
+          </header>
+
+          <div class="action-round-label" id="actionRoundLabel">ROUND 1 / BUFF</div>
+
+          <div class="mole-timer" id="moleTimer" aria-label="Round time remaining">
+            <span class="mole-timer-label">TIME</span>
+            <span class="mole-timer-track"><i id="moleTimerFill"></i></span>
+            <strong id="moleTimerText">10.0s</strong>
+          </div>
+
+          <img class="action-house-art" src="./assets/action-house.png?v=2" alt="" aria-hidden="true" />
+          <video class="action-house-build-video" id="actionHouseBuildVideo" src="./assets/action-build.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+          <canvas class="action-house-build-canvas" id="actionHouseBuildCanvas" aria-hidden="true"></canvas>
+          <img class="action-house-built-art" src="./assets/action-house-built.png?v=1" alt="" aria-hidden="true" />
+          <section class="target-field" id="targetField" aria-label="Whack a mole play field">
+            <div class="farm-outline" aria-hidden="true">
+              <span class="farm-roof"></span><span class="farm-wall"></span><span class="farm-door"></span>
+            </div>
+            <div class="hole-grid" id="holeGrid">
+              <span class="mole-hole"><canvas class="mole-hole-art" aria-hidden="true"></canvas><canvas class="mole-state-art" aria-hidden="true"></canvas><canvas class="mole-hit-effect-art" aria-hidden="true"></canvas><button class="mole-target" type="button" aria-label="Mole 1"><i></i><i></i><b></b></button></span>
+              <span class="mole-hole"><canvas class="mole-hole-art" aria-hidden="true"></canvas><canvas class="mole-state-art" aria-hidden="true"></canvas><canvas class="mole-hit-effect-art" aria-hidden="true"></canvas><button class="mole-target" type="button" aria-label="Mole 2"><i></i><i></i><b></b></button></span>
+              <span class="mole-hole"><canvas class="mole-hole-art" aria-hidden="true"></canvas><canvas class="mole-state-art" aria-hidden="true"></canvas><canvas class="mole-hit-effect-art" aria-hidden="true"></canvas><button class="mole-target" type="button" aria-label="Mole 3"><i></i><i></i><b></b></button></span>
+              <span class="mole-hole"><canvas class="mole-hole-art" aria-hidden="true"></canvas><canvas class="mole-state-art" aria-hidden="true"></canvas><canvas class="mole-hit-effect-art" aria-hidden="true"></canvas><button class="mole-target" type="button" aria-label="Mole 4"><i></i><i></i><b></b></button></span>
+              <span class="mole-hole"><canvas class="mole-hole-art" aria-hidden="true"></canvas><canvas class="mole-state-art" aria-hidden="true"></canvas><canvas class="mole-hit-effect-art" aria-hidden="true"></canvas><button class="mole-target" type="button" aria-label="Mole 5"><i></i><i></i><b></b></button></span>
+              <span class="mole-hole"><canvas class="mole-hole-art" aria-hidden="true"></canvas><canvas class="mole-state-art" aria-hidden="true"></canvas><canvas class="mole-hit-effect-art" aria-hidden="true"></canvas><button class="mole-target" type="button" aria-label="Mole 6"><i></i><i></i><b></b></button></span>
+              <span class="mole-hole"><canvas class="mole-hole-art" aria-hidden="true"></canvas><canvas class="mole-state-art" aria-hidden="true"></canvas><canvas class="mole-hit-effect-art" aria-hidden="true"></canvas><button class="mole-target" type="button" aria-label="Mole 7"><i></i><i></i><b></b></button></span>
+              <span class="mole-hole"><canvas class="mole-hole-art" aria-hidden="true"></canvas><canvas class="mole-state-art" aria-hidden="true"></canvas><canvas class="mole-hit-effect-art" aria-hidden="true"></canvas><button class="mole-target" type="button" aria-label="Mole 8"><i></i><i></i><b></b></button></span>
+              <span class="mole-hole"><canvas class="mole-hole-art" aria-hidden="true"></canvas><canvas class="mole-state-art" aria-hidden="true"></canvas><canvas class="mole-hit-effect-art" aria-hidden="true"></canvas><button class="mole-target" type="button" aria-label="Mole 9"><i></i><i></i><b></b></button></span>
+            </div>
+
+            <div class="mole-hammer" id="moleHammer" aria-hidden="true">
+
+            <img class="weapon-art weapon-art-flame" src="./assets/dice/hammer-flame.png" alt="" aria-hidden="true" />
+            <img class="weapon-art weapon-art-tiny" src="./assets/dice/hammer-tiny.png" alt="" aria-hidden="true" />
+            <img class="weapon-art weapon-art-mega" src="./assets/dice/hammer-mega.png" alt="" aria-hidden="true" />
+            </div>
+          </section>
+
+          <div class="countdown-overlay is-hidden" id="countdownOverlay" aria-live="assertive">
+            <strong id="countdownValue">3</strong>
+          </div>
+
+          <div class="mole-status" id="moleStatus" aria-live="polite">GET READY</div>
+          <div class="coin-layer" id="coinLayer" aria-hidden="true"></div>
+
+          <div class="action-bolo" aria-hidden="true">
+            <span class="action-ear action-ear-left"></span><span class="action-ear action-ear-right"></span>
+            <span class="action-bear-head"><i></i><i></i><b></b></span>
+            <span class="action-bear-body"></span>
+            <span class="action-arm"></span>
+            <img class="stage1-bear-art" id="stage1BearArt" alt="" aria-hidden="true" />
+            <img class="stage2-bear-art" id="stage2BearArt" alt="" aria-hidden="true" />
+            <img class="stage3-bear-art" id="stage3BearArt" alt="" aria-hidden="true" />
+          </div>
+
+          <div class="action-callout" id="actionCallout">GOOD!</div>
+
+          <div class="paw-meter" aria-label="Power meter">
+            <span class="paw-meter-label">PAW</span>
+            <span class="paw-icon" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></span>
+            <span class="paw-track"><img class="paw-track-art" src="./assets/action-coin-meter.png" alt="" aria-hidden="true" /><i id="pawFill"></i></span>
+          </div>
+
+          <div class="reward-chest" aria-label="Reward chest placeholder">
+            <span class="reward-chest-lid"></span>
+            <span class="reward-chest-body"></span>
+            <span class="reward-chest-lock"></span>
+            <img class="stage1-chest-art" id="stage1ChestArt" alt="" aria-hidden="true" />
+            <img class="stage2-chest-art" id="stage2ChestArt" alt="" aria-hidden="true" />
+            <img class="stage3-chest-art" id="stage3ChestArt" alt="" aria-hidden="true" />
+          </div>
+
+          <div class="action-result-panel">
+            <span id="actionResultType">POSITIVE BUFF</span>
+            <strong id="actionResultValue">x20</strong>
+          </div>
+
+          <button class="round-complete-button" id="roundCompleteButton" type="button" disabled>COMPLETE ROUND 1</button>
+          <div class="action-status" id="actionStatus">Round 1 starts after the countdown.</div>
+        </section>
+        <section class="final-screen" id="finalScreen" aria-hidden="true">
+          <video class="final-video" id="finalVideo" src="./assets/final-board.mp4" muted playsinline preload="auto"></video>
+          <a class="final-play-now" href="https://play.google.com/store/apps/details?id=com.monopoly.farm.fish.tycoon" aria-label="Play now"></a>
+        </section>
+      </section>
+
+      <details class="dev-toolbar">
+        <summary>DEV HARNESS</summary>
+        <div class="dev-toolbar-row">
+          <button id="resetButton" type="button">RESET THREE ROLLS</button>
+          <span id="devState">READY</span>
+        </div>
+        <div class="dev-log" id="devLog" aria-live="polite"></div>
+      </details>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -67,8 +67,12 @@ window.addEventListener('hashchange',renderView);document.querySelectorAll('.nav
 const videoArchive=document.querySelector('#video .archive-grid');
 const videoSlot=videoArchive?.querySelector('.archive-card.placeholder');
 if(videoArchive&&videoSlot){
-  const reels=[5,6,7].map(n=>`<article class="archive-card video-archive-card"><div class="video-media"><video controls playsinline preload="none" poster="assets/videos/video-${n}-cover.png"><source src="assets/videos/video-${n}.mp4" type="video/mp4">你的浏览器不支持视频播放。</video></div><div><span class="archive-tag mono">FEATURED / 00${n}</span><h2>影像作品 0${n}</h2><p>《Farm Feud》游戏广告素材</p></div><span class="mono">VIDEO / AD ↗</span></article>`).join('');
-  videoSlot.outerHTML=reels+`<article class="archive-card placeholder"><div><span class="mono">OPEN SLOT / 008</span><strong>+</strong></div><p>上传下一个影像作品</p></article>`;
+  const reels=Array.from({length:9},(_,i)=>i+5).map(n=>{
+    const number=String(n).padStart(3,'0');
+    const description=n>=8?'《钓鱼大咖》游戏广告素材':'《Farm Feud》游戏广告素材';
+    return `<article class="archive-card video-archive-card"><div class="video-media"><video controls playsinline preload="none" poster="assets/videos/video-${n}-cover.png"><source src="assets/videos/video-${n}.mp4" type="video/mp4">你的浏览器不支持视频播放。</video></div><div><span class="archive-tag mono">FEATURED / ${number}</span><h2>影像作品 ${String(n).padStart(2,'0')}</h2><p>${description}</p></div><span class="mono">VIDEO / AD ↗</span></article>`;
+  }).join('');
+  videoSlot.outerHTML=reels+`<article class="archive-card placeholder"><div><span class="mono">OPEN SLOT / 014</span><strong>+</strong></div><p>上传下一个影像作品</p></article>`;
 }
 </script>
 

@@ -31,7 +31,7 @@
 <div class="noise"></div>
 <header class="container nav">
   <a class="brand" href="#top">DOR<i></i></a>
-  <nav class="navlinks" id="navlinks"><a href="#about">01 / ABOUT</a><a href="#work">02 / WORK</a><a href="#archive">03 / ARCHIVE</a><a href="#contact">04 / CONTACT</a></nav>
+  <nav class="navlinks" id="navlinks"><a href="#about">01 / ABOUT</a><a href="#archive">02 / WORK</a><a href="#archive">03 / ARCHIVE</a><a href="#contact">04 / CONTACT</a></nav>
   <div class="status mono">AVAILABLE</div><button class="mobile-toggle" aria-label="打开菜单" onclick="document.getElementById(&#39;navlinks&#39;).classList.toggle(&#39;open&#39;)">☰</button>
 </header>
 <main id="top"><div class="home-content" id="home-content">
@@ -55,7 +55,7 @@ const views=['games','video','strategy','personal'];
 const home=document.getElementById('home-content');
 const nav=document.getElementById('navlinks');
 function renderView(){const key=location.hash.slice(1);const active=views.includes(key)?key:null;home.hidden=Boolean(active);document.querySelectorAll('.category-view').forEach(view=>view.classList.toggle('is-active',view.dataset.view===active));document.querySelectorAll('.navlinks a').forEach(link=>link.classList.toggle('active',link.getAttribute('href')==='#'+active));if(active)window.scrollTo(0,0);}
-window.addEventListener('hashchange',renderView);document.querySelectorAll('.navlinks a').forEach(link=>link.addEventListener('click',()=>nav.classList.remove('open')));renderView();
+if(location.hash==='#work')location.hash='#archive';window.addEventListener('hashchange',renderView);document.querySelectorAll('.navlinks a').forEach(link=>link.addEventListener('click',()=>nav.classList.remove('open')));renderView();
 </script>
 
 <script>

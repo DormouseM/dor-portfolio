@@ -24,7 +24,7 @@
 .archive-card:has(video[poster$="game-9-cover.png"]){align-self:start}
 .video-media{margin:-24px -24px 22px;aspect-ratio:9/16;background:#050608;overflow:hidden}
 .video-media video{display:block;width:100%;height:100%;object-fit:contain;background:#050608}
-.video-archive-card{align-self:start}.pdf-archive-card{grid-column:span 2;min-height:420px}.pdf-archive-card .archive-cover{opacity:.42;filter:saturate(.72) contrast(1.08)}.pdf-meta{color:var(--lime)!important;margin-top:18px!important}.pdf-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.video-archive-card{align-self:start}.pdf-archive-card{grid-column:span 2;min-height:420px}.pdf-archive-card .archive-cover{opacity:.42;filter:saturate(.72) contrast(1.08)}.pdf-meta{color:var(--lime)!important;margin-top:18px!important}.pdf-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.video-pdf-card{grid-column:span 1;min-height:0;padding:0;overflow:hidden}.video-pdf-card .pdf-cover-media{margin:0;aspect-ratio:9/16;background:#050608;overflow:hidden}.video-pdf-card .pdf-cover-media img{display:block;width:100%;height:100%;object-fit:contain;background:#050608}.video-pdf-card .pdf-info{padding:24px 24px 0}.video-pdf-card .pdf-actions{justify-content:flex-end;margin:22px 24px 24px}
 @media(max-width:520px){.pdf-archive-card{grid-column:span 1}}
 </style>
 </head>
@@ -60,16 +60,45 @@ if(location.hash==='#work')location.hash='#archive';window.addEventListener('has
 </script>
 
 <script>
-// Add the next portrait ad reels without changing the existing archive markup.
+// Insert the newest ad first, then keep the existing archive cards in sequence.
 const videoArchive=document.querySelector('#video .archive-grid');
 const videoSlot=videoArchive?.querySelector('.archive-card.placeholder');
 if(videoArchive&&videoSlot){
+  const firstAd=document.createElement('article');
+  firstAd.className='archive-card video-archive-card';
+  firstAd.innerHTML='<div class="video-media"><video controls playsinline preload="none" poster="assets/videos/video-14-cover.jpg"><source src="assets/videos/video-14.mp4" type="video/mp4">你的浏览器不支持视频播放。</video></div><div><span class="archive-tag mono">FEATURED / 001</span><h2>广告作品 01</h2><p>《Farm Feud》游戏广告素材</p></div><span class="mono">VIDEO / AD ↗</span>';
+  videoArchive.prepend(firstAd);
+  const storyboard=document.createElement('article');
+  storyboard.className='archive-card video-archive-card video-pdf-card';
+  storyboard.innerHTML='<div class="pdf-cover-media"><img src="assets/docs/farm-feud-ad-02-storyboard-cover.png" alt="广告作品 02 分镜脚本封面"></div><div class="pdf-info"><span class="archive-tag mono">FEATURED / 002 · PDF</span><h2>广告作品 02<br>分镜脚本</h2><p>《Farm Feud》游戏广告分镜脚本。</p><p class="pdf-meta mono">STORYBOARD / PDF</p></div><div class="pdf-actions"><a class="btn" href="assets/docs/farm-feud-ad-02-storyboard.pdf" target="_blank" rel="noopener">OPEN PDF ↗</a></div>';
+  firstAd.after(storyboard);
   const reels=Array.from({length:9},(_,i)=>i+5).map(n=>{
     const number=String(n).padStart(3,'0');
     const description=n>=8?'《钓鱼大咖》游戏广告素材':'《Farm Feud》游戏广告素材';
     return `<article class="archive-card video-archive-card"><div class="video-media"><video controls playsinline preload="none" poster="assets/videos/video-${n}-cover.png"><source src="assets/videos/video-${n}.mp4" type="video/mp4">你的浏览器不支持视频播放。</video></div><div><span class="archive-tag mono">FEATURED / ${number}</span><h2>广告作品 ${String(n).padStart(2,'0')}</h2><p>${description}</p></div><span class="mono">VIDEO / AD ↗</span></article>`;
   }).join('');
-  videoSlot.outerHTML=reels+`<article class="archive-card placeholder"><div><span class="mono">OPEN SLOT / 014</span><strong>+</strong></div><p>上传下一个影像作品</p></article>`;
+  const finalAd='<article class="archive-card video-archive-card"><div class="video-media"><video controls playsinline preload="none" poster="assets/videos/video-16-cover.jpg"><source src="assets/videos/video-16.mp4" type="video/mp4">你的浏览器不支持视频播放。</video></div><div><span class="archive-tag mono">FEATURED / 015</span><h2>广告作品 15</h2><p>《Farm Feud》游戏广告素材</p></div><span class="mono">VIDEO / AD ↗</span></article>';
+  videoSlot.outerHTML=reels+finalAd+`<article class="archive-card placeholder"><div><span class="mono">OPEN SLOT / 017</span><strong>+</strong></div><p>上传下一个影像作品</p></article>`;
+  videoArchive.querySelectorAll('.video-archive-card:not(.video-pdf-card)').forEach((card,index)=>{
+    const adNumber=index===0?1:index+2;
+    const number=String(adNumber).padStart(3,'0');
+    card.querySelector('.archive-tag').textContent=`FEATURED / ${number}`;
+    card.querySelector('h2').textContent=`广告作品 ${String(adNumber).padStart(2,'0')}`;
+  });
+}
+</script>
+
+<script>
+const strategyArchive=document.querySelector('#strategy .archive-grid');
+const strategySlot=strategyArchive?.querySelector('.archive-card.placeholder');
+if(strategyArchive&&strategySlot){
+  const reportCard=document.createElement('article');
+  reportCard.className='archive-card has-cover pdf-archive-card';
+  reportCard.innerHTML='<img class="archive-cover" src="assets/docs/coin-master-board-adventure-experience-report-cover.png" alt="Coin Master - Board Adventure发行体验报告封面"><div><span class="archive-tag mono">FEATURED / 002 · PDF</span><h2>Coin Master - Board Adventure<br>发行体验报告</h2><p>Coin Master - Board Adventure 游戏发行体验报告。</p><p class="pdf-meta mono">USER EXPERIENCE / PDF</p></div><div class="pdf-actions"><a class="btn primary" href="assets/docs/coin-master-board-adventure-experience-report.pdf" target="_blank" rel="noopener">OPEN PDF ↗</a><a class="btn" href="assets/docs/coin-master-board-adventure-experience-report.pdf" download>DOWNLOAD PDF ↓</a></div>';
+  strategySlot.before(reportCard);
+  strategyArchive.querySelectorAll('.archive-card.placeholder').forEach((card,index)=>{
+    card.querySelector('.mono').textContent=`OPEN SLOT / ${String(index+3).padStart(3,'0')}`;
+  });
 }
 </script>
 
